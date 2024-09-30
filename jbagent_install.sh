@@ -75,7 +75,13 @@ Default installation include options:
 EOF
 }
 
+function get_curl_vers {
+    _version=$(curl -s https://raw.githubusercontent.com/VectorBravo-cr/jb-req/refs/heads/main/dependencies.json | jq -r '.version')
+    echo $_version
+}
+
 function check_version {
+    
     if [[ "$current_version_jb" != "$ACTUAL_VERSION" ]]; then
             return
         else
@@ -283,15 +289,16 @@ function deleter {
 ##  конец области функций, начало исполняемого кода  ##
 #######################################################
 #######################################################
+get_curl_vers
 
-pre_setup_script # log enabled
-pre_show_welcome # text hello
+# pre_setup_script # log enabled
+# pre_show_welcome # text hello
 
-check_installed_version # checker and runner deleter
+# check_installed_version # checker and runner deleter
 
-installation_interactive_menu # check install or update or delete 
-check_dependens
-base_direction_interactive_menu # if install - select dir
-# check_root deprecated
+# installation_interactive_menu # check install or update or delete 
+# check_dependens
+# base_direction_interactive_menu # if install - select dir
+# # check_root deprecated
 
-installer
+# installer
