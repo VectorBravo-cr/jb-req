@@ -1,0 +1,206 @@
+{
+    "download_link_linux": "https://disk.skbkontur.ru/index.php/s/JazZcznaDoSw2YS/download?path=%2F&files=",
+    "download_link_mac": "https://disk.skbkontur.ru/index.php/s/HBZtG6SxAHxaCzd/download?path=%2F&files=",
+
+    "products_linux": [
+      {
+        "name": "aqua-2024.2",
+        "file": "aqua-2024.2.tar.gz"
+      },
+      {
+        "name": "CLion-2024.1.4",
+        "file": "CLion-2024.1.4.tar.gz"
+      },
+      {
+        "name": "datagrip-2024.2.2-aarch64",
+        "file": "datagrip-2024.2.2-aarch64.tar.gz"
+      },
+      {
+        "name": "datagrip-2024.2.2",
+        "file": "datagrip-2024.2.2.tar.gz"
+      },
+      {
+        "name": "goland-2024.2.1.1",
+        "file": "goland-2024.2.1.1.tar.gz"
+      },
+      {
+        "name": "ideaIU-2024.1.4",
+        "file": "ideaIU-2024.1.4.tar.gz"
+      },
+      {
+        "name": "ideaIU-2024.2.2-aarch64",
+        "file": "ideaIU-2024.2.2-aarch64.tar.gz"
+      },
+      {
+        "name": "ideaIU-2024.2.2",
+        "file": "ideaIU-2024.2.2.tar.gz"
+      },
+      {
+        "name": "jb-agent_2024.9.9",
+        "file": "jb-agent_2024.9.9.tar.gz"
+      },
+      {
+        "name": "JetBrains.dotCover.CommandLineTools.linux-x64.2024.1.4",
+        "file": "JetBrains.dotCover.CommandLineTools.linux-x64.2024.1.4.tar.gz"
+      },
+      {
+        "name": "JetBrains.dotCover.CommandLineTools.2024.1.4",
+        "file": "JetBrains.dotCover.CommandLineTools.2024.1.4.tar.gz"
+      },
+      {
+        "name": "JetBrains.dotMemory.linux-x64.2024.1.4",
+        "file": "JetBrains.dotMemory.linux-x64.2024.1.4.tar.gz"
+      },
+      {
+        "name": "JetBrains.dotTrace.linux-x64.2024.1.4",
+        "file": "JetBrains.dotTrace.linux-x64.2024.1.4.tar.gz"
+      },
+      {
+        "name": "JetBrains.Rider-2024.1.3",
+        "file": "JetBrains.Rider-2024.1.3.tar.gz"
+      },
+      {
+        "name": "JetBrains.Rider-2024.1.5",
+        "file": "JetBrains.Rider-2024.1.5.tar.gz"
+      },
+      {
+        "name": "JetBrains.Rider-2024.1.4-aarch64",
+        "file": "JetBrains.Rider-2024.1.4-aarch64.tar.gz"
+      },
+      {
+        "name": "JetBrains.Rider-2024.2.2",
+        "file": "JetBrains.Rider-2024.2.2.tar.gz"
+      },
+      {
+        "name": "JetBrains.Rider-2024.2",
+        "file": "JetBrains.Rider-2024.2.tar.gz"
+      },
+      {
+        "name": "JetBrains.Rider-2024.2.4-aarch64",
+        "file": "JetBrains.Rider-2024.2.4-aarch64.tar.gz"
+      },
+      {
+        "name": "JetBrains.Rider-2024.2.4",
+        "file": "JetBrains.Rider-2024.2.4.tar.gz"
+      },
+      {
+        "name": "PhpStorm-2024.1.4",
+        "file": "PhpStorm-2024.1.4.tar.gz"
+      },
+      {
+        "name": "pycharm-professional-2024.1.4",
+        "file": "pycharm-professional-2024.1.4.tar.gz"
+      },
+      {
+        "name": "pycharm-professional-2024.2.1",
+        "file": "pycharm-professional-2024.2.1.tar.gz"
+      },
+      {
+        "name": "WebStorm-2024.1.5",
+        "file": "WebStorm-2024.1.5.tar.gz"
+      },
+      {
+        "name": "WebStorm-2024.2.1",
+        "file": "WebStorm-2024.2.1.tar.gz"
+      }
+    ],
+
+    "products_mac" : [
+      {
+        "name": "aqua-2024.2",
+        "file": "aqua-2024.2.dmg"
+      },
+      {
+        "name": "CLion-2024.1.4",
+        "file": "CLion-2024.1.4.dmg"
+      },
+      {
+        "name": "datagrip-2024.2.2-aarch64",
+        "file": "datagrip-2024.2.2-aarch64.dmg"
+      },
+      {
+        "name": "datagrip-2024.2.2",
+        "file": "datagrip-2024.2.2.dmg"
+      },
+      {
+        "name": "goland-2024.2.1.1",
+        "file": "goland-2024.2.1.1.dmg"
+      },
+      {
+        "name": "ideaIU-2024.1.4",
+        "file": "ideaIU-2024.1.4.dmg"
+      },
+      {
+        "name": "ideaIU-2024.2.2-aarch64",
+        "file": "ideaIU-2024.2.2-aarch64.dmg"
+      },
+      {
+        "name": "jb-agent_2024.9.9",
+        "file": "jb-agent_2024.9.9.tar.gz"
+      },
+      {
+        "name": "JetBrains.dotCover.CommandLineTools.macos-x64.2024.1.4",
+        "file": "JetBrains.dotCover.CommandLineTools.macos-x64.2024.1.4.tar.gz"
+      },
+      {
+        "name": "JetBrains.dotMemory.macos-x64.2024.1.4",
+        "file": "JetBrains.dotMemory.macos-x64.2024.1.4.dmg"
+      },
+      {
+        "name": "JetBrains.dotTrace.macos-x64.2024.1.4",
+        "file": "JetBrains.dotTrace.macos-x64.2024.1.4.dmg"
+      },
+      {
+        "name": "JetBrains.Rider-2024.1.3",
+        "file": "JetBrains.Rider-2024.1.3.dmg"
+      },
+      {
+        "name": "JetBrains.Rider-2024.1.4",
+        "file": "JetBrains.Rider-2024.1.4.dmg"
+      },
+      {
+        "name": "JetBrains.Rider-2024.1.5",
+        "file": "JetBrains.Rider-2024.1.5.dmg"
+      },
+      {
+        "name": "JetBrains.Rider-2024.2.4-aarch64",
+        "file": "JetBrains.Rider-2024.2.4-aarch64.dmg"
+      },
+      {
+        "name": "JetBrains.Rider-2024.2.4",
+        "file": "JetBrains.Rider-2024.2.4.dmg"
+      },
+      {
+        "name": "JetBrains.Rider-2024.2",
+        "file": "JetBrains.Rider-2024.2.dmg"
+      },
+      {
+        "name": "PhpStorm-2024.1.4",
+        "file": "PhpStorm-2024.1.4.dmg"
+      },
+      {
+        "name": "pycharm-professional-2024.1.4",
+        "file": "pycharm-professional-2024.1.4.dmg"
+      },
+      {
+        "name": "pycharm-professional-2024.2.1",
+        "file": "pycharm-professional-2024.2.1.dmg"
+      },
+      {
+        "name": "WebStorm-2024.1.5-aarch64",
+        "file": "WebStorm-2024.1.5-aarch64.dmg"
+      },
+      {
+        "name": "WebStorm-2024.2.1",
+        "file": "WebStorm-2024.2.1.dmg"
+      }
+    ]
+    
+  }
+
+
+
+
+
+
+
