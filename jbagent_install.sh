@@ -231,12 +231,16 @@ function get_package_jb_agent () {
     CURRENT_DIR=$(pwd)
     OUTPUT_FILE=$(echo "$URL" | awk -F'files=' '{print $2}')
     wget "$URL" -O "$OUTPUT_FILE"
+    sleep 2
     if [ $? -eq 0 ];
     then
         echo "The client has been successfully downloaded. Unpacking now."
         unpuck_agent $OUTPUT_FILE 
+        
         version=$(echo "$URL" | sed 's/.*_\(.*\)\.tar\.gz/\1/')
         echo "Selected version = $version"
+        echo "local direction version = $CURRENT_DIR"
+        echo $(ls -al)
         export JB_AGENT_VERSION="$version"
         export JB_AGENT_DIRECTORY="$CURRENT_DIR"
     else
@@ -275,7 +279,7 @@ function profile_env_setter () {
 function install_starter () {
     cd $JB_AGENT_DIRECTORY/tmp_unpuck_agent/
     echo $(pwd)
-    source ./scripts/install.sh
+    ./scripts/install.sh
     cd $JB_AGENT_DIRECTORY
 }
 
