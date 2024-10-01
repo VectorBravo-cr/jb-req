@@ -1,5 +1,5 @@
 #!/bin/sh
-shopt -s extglob #странная конструкция, но работает
+# shopt -s extglob #странная конструкция, но работает
 
 # This script installs jb-agent on Linux or MacOS.
 # It detects the current operating system architecture and installs the appropriate version.
@@ -178,7 +178,7 @@ check_dependens() {
 
 pre_setup_script() {
     rm -f /tmp/jbt_install.log
-    exec > >(tee /tmp/jbt_install.log)
+    tee /tmp/jbt_install.log
     echo "error" >&2
     echo "notice" >&2
 
