@@ -36,7 +36,6 @@ require() {
     echo $MISSING
 }
 
-
 function pre_show_welcome {
     
     cat << "EOF"
@@ -85,6 +84,7 @@ function get_curl_vers {
 
 function get_file_vers {
     cd ~/.jb-agent/
+    cd $current_direction_jb
     version=$(ls -al | grep jb-agent* | sed 's/.*_\(.*\)\.tar\.gz/\1/')
     current_version_jb=$version
     # echo "searching echo $current_version_jb"
@@ -100,6 +100,7 @@ function check_version {
         else
             echo "Your version is up to date ($ACTUAL_VERSION)."
             echo "Installation cancelled"
+            echo "  "
             deleter
             exit 1
         fi
@@ -227,6 +228,7 @@ function unpuck_agent {
 
 function get_package_jb_agent {
     URL=$1
+    CURRENT_DIR=$(pwd)
     OUTPUT_FILE=$(echo "$URL" | awk -F'files=' '{print $2}')
     wget "$URL" -O "$OUTPUT_FILE"
     if [ $? -eq 0 ];
@@ -236,6 +238,7 @@ function get_package_jb_agent {
         version=$(echo "$URL" | sed 's/.*_\(.*\)\.tar\.gz/\1/')
         echo "Selected version = $version"
         export JB_AGENT_VERSION="$version"
+        export JB_AGENT_DIRECTORY="$CURRENT_DIR"
     else
         error() { echo "ERROR $* Installation stoped. Check log and fix errors"; exit 1; }
     fi
@@ -246,40 +249,55 @@ function create_dir_install {
     then
         echo "Direction exist"
         cd $install_dir
+        export JB_AGENT_DIRECTORY="$(pwd)"
     else
         mkdir $install_dir
         echo "Create direction $install_dir"
         cd $install_dir
-        export JB_AGENT_DIRECTORY="$pwd"
+        export JB_AGENT_DIRECTORY="$(pwd)"
     fi
 }
 
+function profile_env_setter {
+    
+    if [ $OS == "Darwin" ]; then
+        profile_file=~/.bash_profile
+    else
+        profile_file=~/.bashrc
+    fi
+
+    echo "export JB_AGENT_DIRECTORY=$JB_AGENT_DIRECTORY" >> $profile_file
+    echo "export JB_AGENT_VERSION=$JB_AGENT_VERSION" >> $profile_file
+    echo "Enviroment sett JB_AGENT_DIRECTORY JB_AGENT_VERSION."
+    source $profile_file
+}
+
 function install_starter {
-    source '/Users/bektop/.jb-agent/tmp_unpuck_agent/script/install.sh'
+    cd $JB_AGENT_DIRECTORY/tmp_unpuck_agent/
+    echo $(pwd)
+    source ./scripts/install.sh
+    cd $JB_AGENT_DIRECTORY
 }
 
 function installer {
     if [[ $OS == "Linux" ]]; then
-    echo "Install to Linux"
-    # Код для установки на Linux
-    create_dir_install
-    get_package_jb_agent 'https://disk.skbkontur.ru/index.php/s/JazZcznaDoSw2YS/download?path=%2F&files=jb-agent_2024.9.9.tar.gz'
-    install_starter
-    post_show_install
-
-
+        echo "Install to Linux"
+        create_dir_install
+        get_package_jb_agent 'https://disk.skbkontur.ru/index.php/s/JazZcznaDoSw2YS/download?path=%2F&files=jb-agent_2024.9.9.tar.gz'
+        
     elif [[ $OS == "Darwin" ]]; then
         echo "Install to MacOS"
-        # Код для установки на macOS
         create_dir_install
         get_package_jb_agent 'https://disk.skbkontur.ru/index.php/s/HBZtG6SxAHxaCzd/download?path=%2F&files=jb-agent_2024.9.9.tar.gz'
-        install_starter
-        post_show_install
 
     else
         echo "Неизвестная операционная система. Обратитесь в поддержку."
         exit 1
 fi
+
+    install_starter
+    profile_env_setter
+    post_show_install
 }
 
 function deleter {
@@ -288,12 +306,21 @@ function deleter {
     if [ "$response" != "y" ]; then
         exit 1
     else
-        source $JB_AGENT_DIRECTORY/tmp_unpuck_agent/uninstall.sh
+        source $JB_AGENT_DIRECTORY/tmp_unpuck_agent/scripts/uninstall.sh
         rm -rf $JB_AGENT_DIRECTORY/tmp_unpuck_agent/
         rm -rf $JB_AGENT_DIRECTORY
 
-        unset $JB_AGENT_DIRECTORY
-        unset $JB_AGENT_VERSION
+        # unset $JB_AGENT_DIRECTORY
+        # unset $JB_AGENT_VERSION
+       
+        if [ $OS == "Darwin" ]; then
+            profile_file=~/.bash_profile
+        else
+            profile_file=~/.bashrc
+        fi
+       
+        sed -i '/export JB_AGENT_DIRECTORY=/d' $profile_file
+        sed -i '/export JB_AGENT_VERSION=/d' $profile_file
     fi
 
 }
