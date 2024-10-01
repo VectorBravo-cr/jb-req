@@ -30,7 +30,7 @@ require() {
     echo "$MISSING"
 }
 
-pre_show_welcome() {
+function pre_show_welcome {
     
     cat << "EOF"
 ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗                          
@@ -70,13 +70,13 @@ Default installation include options:
 EOF
 }
 
-get_curl_vers() {
+function get_curl_vers {
     _version=$(curl -s https://raw.githubusercontent.com/VectorBravo-cr/jb-req/refs/heads/main/dependencies.json | jq -r ".version")
     ACTUAL_VERSION=$_version
     echo "Actual response version $ACTUAL_VERSION"
 }
 
-get_file_vers() {
+function get_file_vers {
     cd ~/.jb-agent/
     cd $current_direction_jb
     version=$(ls -al | grep jb-agent* | sed 's/.*_\(.*\)\.tar\.gz/\1/')
@@ -84,7 +84,7 @@ get_file_vers() {
     # echo "searching echo $current_version_jb"
 }
 
-check_version() {
+function check_version {
     # two methods checking
     get_curl_vers
     get_file_vers
@@ -100,7 +100,7 @@ check_version() {
         fi
 }
 
-check_installed_version() {
+function check_installed_version {
     directory=$current_direction_jb
     if [ -z "$directory" ]; then
         directory=$HOME/.jb-agent/
@@ -116,7 +116,7 @@ check_installed_version() {
     fi
 }
 
-installation_interactive_menu() {
+function installation_interactive_menu {
 
     echo " "
     read -p "Ypu want to install JetBrains Agent? (y/n):" response
@@ -126,7 +126,7 @@ installation_interactive_menu() {
     fi
 }
 
-base_direction_interactive_menu() {
+function base_direction_interactive_menu {
     echo "Specify the installation directory path [defautl: $HOME/.jb-agent/]:"
     read install_dir
     if [ -z "$install_dir" ];
@@ -137,7 +137,7 @@ base_direction_interactive_menu() {
 
 }
 
-post_show_install() {
+function post_show_install {
     cat << "EOF"
 Installation jb-agent successfully
 You need:
@@ -150,7 +150,7 @@ EOF
     
 }
 
-check_root (){
+function check_root {
     SUDO=
         if [ "$(id -u)" -ne 0 ]; then
             # Running as root, no need for sudo
@@ -163,7 +163,7 @@ check_root (){
 
 }
 
-check_dependens() {
+function check_dependens {
 
     NEEDS=$(require curl wget jq awk grep sed tee xargs)
         if [ -n "$NEEDS" ]; then
@@ -176,7 +176,7 @@ check_dependens() {
         fi
 }
 
-pre_setup_script() {
+function pre_setup_script {
     rm -f /tmp/jbt_install.log
     tee /tmp/jbt_install.log
     echo "error" >&2
@@ -205,7 +205,7 @@ pre_setup_script() {
 #     fi
 # }
 
-unpuck_agent() {
+function unpuck_agent {
     NAME_DIS=$1
     mkdir tmp_unpuck_agent
     CURRENT_DIR=$(pwd)
@@ -218,7 +218,7 @@ unpuck_agent() {
     fi
 }
 
-get_package_jb_agent() {
+function get_package_jb_agent {
     URL=$1
     CURRENT_DIR=$(pwd)
     OUTPUT_FILE=$(echo "$URL" | awk -F'files=' '{print $2}')
@@ -236,7 +236,7 @@ get_package_jb_agent() {
     fi
 }
 
-create_dir_install() {
+function create_dir_install {
     if [ -d "$install_dir" ];
     then
         echo "Direction exist"
@@ -250,7 +250,7 @@ create_dir_install() {
     fi
 }
 
-profile_env_setter() {
+function profile_env_setter {
     
     if [ $OS == "Darwin" ]; then
         profile_file=~/.bash_profile
@@ -264,14 +264,14 @@ profile_env_setter() {
     source $profile_file
 }
 
-install_starter() {
+function install_starter {
     cd $JB_AGENT_DIRECTORY/tmp_unpuck_agent/
     echo $(pwd)
     source ./scripts/install.sh
     cd $JB_AGENT_DIRECTORY
 }
 
-installer () {
+function installer {
     if [[ $OS == "Linux" ]]; then
         echo "Install to Linux"
         create_dir_install
@@ -292,7 +292,7 @@ fi
     post_show_install
 }
 
-deleter() {
+function deleter() {
     echo " "
     read -p "You want to delete JetBrains Agent? (y/n):" response
     if [ "$response" != "y" ]; then
@@ -325,14 +325,14 @@ deleter() {
 
 # get_file_vers
 
-pre_setup_script();
-pre_show_welcome(); # text hello
+pre_setup_script
+pre_show_welcome # text hello
 
-check_installed_version(); # checker and runner deleter
+check_installed_version # checker and runner deleter
 
-installation_interactive_menu(); # check install or update or delete 
-check_dependens();
-base_direction_interactive_menu(); # if install - select dir
+installation_interactive_menu # check install or update or delete 
+check_dependens
+base_direction_interactive_menu # if install - select dir
 # check_root deprecated
 
-installer();
+installer
