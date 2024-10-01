@@ -230,12 +230,14 @@ function get_package_jb_agent () {
     URL=$1
     CURRENT_DIR=$(pwd)
     OUTPUT_FILE=$(echo "$URL" | awk -F'files=' '{print $2}')
-    wget "$URL" -O "$OUTPUT_FILE"
-    sleep 2
+    wget "$URL" -O "$OUTPUT_FILE" &
+    # sleep 2
+    wait $!
+
     if [ $? -eq 0 ];
     then
         echo "The client has been successfully downloaded. Unpacking now."
-        unpuck_agent $OUTPUT_FILE 
+        unpuck_agent $OUTPUT_FILE
         
         version=$(echo "$URL" | sed 's/.*_\(.*\)\.tar\.gz/\1/')
         echo "Selected version = $version"
@@ -266,12 +268,15 @@ function profile_env_setter () {
     
     if [ $OS == "Darwin" ]; then
         profile_file=~/.bash_profile
+        echo "export JB_AGENT_DIRECTORY=$JB_AGENT_DIRECTORY" >> $profile_file
+        echo "export JB_AGENT_VERSION=$JB_AGENT_VERSION" >> $profile_file
     else
         profile_file=~/.bashrc
+        echo "JB_AGENT_DIRECTORY=$JB_AGENT_DIRECTORY" >> $profile_file
+        echo "JB_AGENT_VERSION=$JB_AGENT_VERSION" >> $profile_file
     fi
 
-    echo "export JB_AGENT_DIRECTORY=$JB_AGENT_DIRECTORY" >> $profile_file
-    echo "export JB_AGENT_VERSION=$JB_AGENT_VERSION" >> $profile_file
+    
     echo "Enviroment sett JB_AGENT_DIRECTORY JB_AGENT_VERSION."
     source $profile_file
 }
