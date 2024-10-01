@@ -13,30 +13,24 @@ current_version_jb="$JB_AGENT_VERSION"
 current_direction_jb="$JB_AGENT_DIRECTORY"
 
 OS=$(uname)  # get operation system type
-BASE_INSTALL="true"
-
-BASE_PATH=$(dirname $(
-  cd $(dirname "$0")
-  pwd
-))
 
 status() { echo ">>> $*" >&2; }
 error() { echo "ERROR $* Installation stoped. Check log and fix errors"; exit 1; }
 warning() { echo "WARNING: $*"; }
-available() { command -v $1 >/dev/null; }
+available() { command -v "$1" >/dev/null; }
 
 require() {
     local MISSING=''
     for TOOL in $*; do
-        if ! available $TOOL; then
+        if ! available "$TOOL"; then
             MISSING="$MISSING $TOOL"
         fi
     done
 
-    echo $MISSING
+    echo "$MISSING"
 }
 
-function pre_show_welcome {
+pre_show_welcome() {
     
     cat << "EOF"
 ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗                          
@@ -76,13 +70,13 @@ Default installation include options:
 EOF
 }
 
-function get_curl_vers {
+get_curl_vers() {
     _version=$(curl -s https://raw.githubusercontent.com/VectorBravo-cr/jb-req/refs/heads/main/dependencies.json | jq -r ".version")
     ACTUAL_VERSION=$_version
     echo "Actual response version $ACTUAL_VERSION"
 }
 
-function get_file_vers {
+get_file_vers() {
     cd ~/.jb-agent/
     cd $current_direction_jb
     version=$(ls -al | grep jb-agent* | sed 's/.*_\(.*\)\.tar\.gz/\1/')
@@ -90,7 +84,7 @@ function get_file_vers {
     # echo "searching echo $current_version_jb"
 }
 
-function check_version {
+check_version() {
     # two methods checking
     get_curl_vers
     get_file_vers
@@ -106,8 +100,7 @@ function check_version {
         fi
 }
 
-
-function check_installed_version {
+check_installed_version() {
     directory=$current_direction_jb
     if [ -z "$directory" ]; then
         directory=$HOME/.jb-agent/
@@ -123,7 +116,7 @@ function check_installed_version {
     fi
 }
 
-function installation_interactive_menu {
+installation_interactive_menu() {
 
     echo " "
     read -p "Ypu want to install JetBrains Agent? (y/n):" response
@@ -133,7 +126,7 @@ function installation_interactive_menu {
     fi
 }
 
-function base_direction_interactive_menu {
+base_direction_interactive_menu() {
     echo "Specify the installation directory path [defautl: $HOME/.jb-agent/]:"
     read install_dir
     if [ -z "$install_dir" ];
@@ -144,7 +137,7 @@ function base_direction_interactive_menu {
 
 }
 
-function post_show_install {
+post_show_install() {
     cat << "EOF"
 Installation jb-agent successfully
 You need:
@@ -157,7 +150,7 @@ EOF
     
 }
 
-function check_root {
+check_root (){
     SUDO=
         if [ "$(id -u)" -ne 0 ]; then
             # Running as root, no need for sudo
@@ -170,7 +163,7 @@ function check_root {
 
 }
 
-function check_dependens {
+check_dependens() {
 
     NEEDS=$(require curl wget jq awk grep sed tee xargs)
         if [ -n "$NEEDS" ]; then
@@ -181,10 +174,9 @@ function check_dependens {
             done
             exit 1
         fi
-
 }
 
-function pre_setup_script {
+pre_setup_script() {
     rm -f /tmp/jbt_install.log
     exec > >(tee /tmp/jbt_install.log)
     echo "error" >&2
@@ -213,7 +205,7 @@ function pre_setup_script {
 #     fi
 # }
 
-function unpuck_agent {
+unpuck_agent() {
     NAME_DIS=$1
     mkdir tmp_unpuck_agent
     CURRENT_DIR=$(pwd)
@@ -226,7 +218,7 @@ function unpuck_agent {
     fi
 }
 
-function get_package_jb_agent {
+get_package_jb_agent() {
     URL=$1
     CURRENT_DIR=$(pwd)
     OUTPUT_FILE=$(echo "$URL" | awk -F'files=' '{print $2}')
@@ -244,7 +236,7 @@ function get_package_jb_agent {
     fi
 }
 
-function create_dir_install {
+create_dir_install() {
     if [ -d "$install_dir" ];
     then
         echo "Direction exist"
@@ -258,7 +250,7 @@ function create_dir_install {
     fi
 }
 
-function profile_env_setter {
+profile_env_setter() {
     
     if [ $OS == "Darwin" ]; then
         profile_file=~/.bash_profile
@@ -272,14 +264,14 @@ function profile_env_setter {
     source $profile_file
 }
 
-function install_starter {
+install_starter() {
     cd $JB_AGENT_DIRECTORY/tmp_unpuck_agent/
     echo $(pwd)
     source ./scripts/install.sh
     cd $JB_AGENT_DIRECTORY
 }
 
-function installer {
+installer () {
     if [[ $OS == "Linux" ]]; then
         echo "Install to Linux"
         create_dir_install
@@ -300,7 +292,7 @@ fi
     post_show_install
 }
 
-function deleter {
+deleter() {
     echo " "
     read -p "You want to delete JetBrains Agent? (y/n):" response
     if [ "$response" != "y" ]; then
