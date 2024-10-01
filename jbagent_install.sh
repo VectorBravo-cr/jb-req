@@ -1,5 +1,5 @@
 #!/bin/sh
-# shopt -s extglob #странная конструкция, но работает
+shopt -s extglob #странная конструкция, но работает
 
 # This script installs jb-agent on Linux or MacOS.
 # It detects the current operating system architecture and installs the appropriate version.
@@ -13,26 +13,32 @@ current_version_jb="$JB_AGENT_VERSION"
 current_direction_jb="$JB_AGENT_DIRECTORY"
 
 OS=$(uname)  # get operation system type
+BASE_INSTALL="true"
+
+BASE_PATH=$(dirname $(
+  cd $(dirname "$0")
+  pwd
+))
 
 status() { echo ">>> $*" >&2; }
 error() { echo "ERROR $* Installation stoped. Check log and fix errors"; exit 1; }
 warning() { echo "WARNING: $*"; }
-available() { command -v "$1" >/dev/null; }
+available() { command -v $1 >/dev/null; }
 
 require() {
     local MISSING=''
     for TOOL in $*; do
-        if ! available "$TOOL"; then
+        if ! available $TOOL; then
             MISSING="$MISSING $TOOL"
         fi
     done
 
-    echo "$MISSING"
+    echo $MISSING
 }
 
 function pre_show_welcome {
     
-cat << EOF
+    cat << "EOF"
 ██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗                          
 ██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝                          
 ██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗                            
@@ -99,6 +105,7 @@ function check_version {
             exit 1
         fi
 }
+
 
 function check_installed_version {
     directory=$current_direction_jb
@@ -174,11 +181,12 @@ function check_dependens {
             done
             exit 1
         fi
+
 }
 
 function pre_setup_script {
     rm -f /tmp/jbt_install.log
-    tee /tmp/jbt_install.log
+    exec > >(tee /tmp/jbt_install.log)
     echo "error" >&2
     echo "notice" >&2
 
@@ -292,7 +300,7 @@ fi
     post_show_install
 }
 
-function deleter() {
+function deleter {
     echo " "
     read -p "You want to delete JetBrains Agent? (y/n):" response
     if [ "$response" != "y" ]; then
@@ -325,7 +333,7 @@ function deleter() {
 
 # get_file_vers
 
-pre_setup_script
+pre_setup_script # log enabled
 pre_show_welcome # text hello
 
 check_installed_version # checker and runner deleter
