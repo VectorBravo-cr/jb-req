@@ -325,14 +325,14 @@ deleter() {
 
 # get_file_vers
 
-pre_setup_script # log enabled
-pre_show_welcome # text hello
+pre_setup_script();
+pre_show_welcome(); # text hello
 
-check_installed_version # checker and runner deleter
+check_installed_version(); # checker and runner deleter
 
-installation_interactive_menu # check install or update or delete 
-check_dependens
-base_direction_interactive_menu # if install - select dir
+installation_interactive_menu(); # check install or update or delete 
+check_dependens();
+base_direction_interactive_menu(); # if install - select dir
 # check_root deprecated
 
-installer
+installer();
